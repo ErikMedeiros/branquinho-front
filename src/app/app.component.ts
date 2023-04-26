@@ -13,7 +13,7 @@ export class AppComponent {
     apiURL: string;
 
     constructor(private http: HttpClient) {
-        this.apiURL = process.env['API_URL'] ?? 'localhost:3000',
+        this.apiURL = 'https://branquinho-back-li6cupd5w-erikmedeiros.vercel.app';
         this.READ_tarefas();
     }
     CREATE_tarefa(descricaoNovaTarefa: string) {
