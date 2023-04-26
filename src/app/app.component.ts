@@ -13,7 +13,7 @@ export class AppComponent {
     apiURL: string;
 
     constructor(private http: HttpClient) {
-        this.apiURL = 'http://localhost:3000'
+        this.apiURL = process.env['API_URL'] ?? 'localhost:3000',
         this.READ_tarefas();
     }
     CREATE_tarefa(descricaoNovaTarefa: string) {
