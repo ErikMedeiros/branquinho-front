@@ -1,12 +1,21 @@
 <div class="main">
-  <h1>Erik - 218124 | Mariana - 219820</h1>
-  <input class="lg-text-input" #campoNovoItem />
-  <button class="btn-primary" (click)="CREATE_tarefa(campoNovoItem.value)">
-    Adicionar Tarefa</button>
-  <ul>
-    <li *ngFor="let tarefaDoLoop of arrayDeTarefas">
-      <app-item [tarefa]="tarefaDoLoop" (removerTarefa)="REMOVER_TAREFA(tarefaDoLoop)"
-        (editarTarefa)="UPDATE_tarefa(tarefaDoLoop)"></app-item>
-    </li>
-  </ul>
+  <h1>Erik - 218124 | Giulia - 216080</h1>
+  <div *ngIf="usuarioLogado">
+    <input class="lg-text-input" #campoNovoItem />
+    <button class="btn-primary" (click)="CREATE_tarefa(campoNovoItem.value)">
+      Adicionar Tarefa</button>
+    <ul>
+      <li *ngFor="let tarefaDoLoop of arrayDeTarefas">
+        <app-item [tarefa]="tarefaDoLoop" (removerTarefa)="REMOVER_TAREFA(tarefaDoLoop)"
+          (editarTarefa)="UPDATE_tarefa(tarefaDoLoop)"></app-item>
+      </li>
+    </ul>
+  </div>
+
+  <div *ngIf="!usuarioLogado">
+    <input #username placeholder="nome" class="lg-text-input" #nome />
+    <BR>
+    <input #password placeholder="senha" class="lg-text-input" (keyup.enter)="login(nome.value, senha.value)" #senha />
+    <button class="btn-primary" (click)="login(nome.value, senha.value)">Login</button>
+  </div>
 </div>
