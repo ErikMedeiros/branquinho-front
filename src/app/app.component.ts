@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Tarefa } from "./tarefa";
 import { HttpClient, HttpHeaders } from '@angular/common/http'
+import { Usuario } from './usuario';
 
 @Component({
     selector: 'app-root',
@@ -10,9 +11,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http'
 export class AppComponent {
     title = 'TODOapp';
     arrayDeTarefas: Tarefa[] = [];
+    arrayDeUsuarios: Usuario[] = [];
     apiURL: string;
     usuarioLogado = false;
-    tokenJWT = '{ "token":""}';
+    admin = false;
+    tela: 'tarefa' | 'usuario' = 'tarefa';
+    tokenJWT = '{ "token":"","admin":false}';
 
     constructor(private http: HttpClient) {
         this.apiURL = 'https://branquinho-back.vercel.app';
@@ -48,12 +52,18 @@ export class AppComponent {
         this.http.patch<Tarefa>(`${this.apiURL}/api/update/${id}`, tarefa, { headers: idToken })
             .subscribe(resultado => { console.log(resultado); this.READ_tarefas(); });
     }
-
     login(username: string, password: string) {
         var credenciais = { "nome": username, "senha": password }
         this.http.post(`${this.apiURL}/api/login`, credenciais).subscribe(resultado => {
             this.tokenJWT = JSON.stringify(resultado);
+            this.admin = JSON.parse(this.tokenJWT).admin;
             this.READ_tarefas();
         })
+    }
+
+    READ_usuarios() {
+        const idToken = new HttpHeaders().set("id-token", JSON.parse(this.tokenJWT).token);
+        this.http.get<Usuario[]>(`${this.apiURL}/api/users`, { headers: idToken }).subscribe(
+            (resultado) => { this.arrayDeUsuarios = resultado; })
     }
 }

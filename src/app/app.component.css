@@ -54,3 +54,8 @@ ul {
 ul li {
     list-style: none;
 }
+
+.crud-container {
+    display: flex;
+    gap: 0.8rem
+}
