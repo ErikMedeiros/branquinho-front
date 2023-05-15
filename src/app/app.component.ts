@@ -58,12 +58,34 @@ export class AppComponent {
             this.tokenJWT = JSON.stringify(resultado);
             this.admin = JSON.parse(this.tokenJWT).admin;
             this.READ_tarefas();
+            if (this.admin) this.READ_usuarios();
         })
+    }
+
+    CREATE_USUARIO(nome: string, senha: string) {
+        const idToken = new HttpHeaders().set("id-token", JSON.parse(this.tokenJWT).token);
+        var usuario = new Usuario(nome, senha, false);
+
+        this.http.post<Usuario>(`${this.apiURL}/api/user`, usuario, { headers: idToken }).subscribe(
+            resultado => { console.log(resultado); this.READ_usuarios(); });
     }
 
     READ_usuarios() {
         const idToken = new HttpHeaders().set("id-token", JSON.parse(this.tokenJWT).token);
-        this.http.get<Usuario[]>(`${this.apiURL}/api/users`, { headers: idToken }).subscribe(
+        this.http.get<Usuario[]>(`${this.apiURL}/api/user`, { headers: idToken }).subscribe(
             (resultado) => { this.arrayDeUsuarios = resultado; })
+    }
+
+    REMOVER_USUARIO(usuario: Usuario) {
+        const idToken = new HttpHeaders().set("id-token", JSON.parse(this.tokenJWT).token);
+        this.http.delete<Usuario>(`${this.apiURL}/api/user/${usuario._id}`, { headers: idToken }).subscribe(
+            (resultado) => {console.log(resultado); this.READ_usuarios() }
+        )
+    }
+
+    UPDATE_USUARIO(usuario:Usuario) {
+        const idToken = new HttpHeaders().set("id-token", JSON.parse(this.tokenJWT).token);
+        this.http.patch<Tarefa>(`${this.apiURL}/api/user/${usuario._id}`, usuario, { headers: idToken })
+            .subscribe(resultado => { console.log(resultado); this.READ_usuarios(); });
     }
 }

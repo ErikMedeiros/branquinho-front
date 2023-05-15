@@ -1,35 +1,74 @@
 <div class="main">
   <h1>Erik - 218124 | Giulia - 216080</h1>
   <div *ngIf="usuarioLogado">
-
     <div *ngIf="admin">
-      <button *ngIf="tela === 'tarefa'" class="btn-primary" (click)="tela = 'usuario'">Ir aos Usuários</button>
-      <button *ngIf="tela === 'usuario'" class="btn-primary" (click)="tela = 'tarefa'">Ir aos Tarefas</button>
+      <button
+        *ngIf="tela === 'tarefa'"
+        class="btn-primary"
+        (click)="tela = 'usuario'"
+      >
+        Ir aos Usuários
+      </button>
+      <button
+        *ngIf="tela === 'usuario'"
+        class="btn-primary"
+        (click)="tela = 'tarefa'"
+      >
+        Ir as Tarefas
+      </button>
     </div>
 
     <div *ngIf="tela === 'tarefa'">
       <input class="lg-text-input" #campoNovoItem />
       <button class="btn-primary" (click)="CREATE_tarefa(campoNovoItem.value)">
-        Adicionar Tarefa</button>
+        Adicionar Tarefa
+      </button>
       <ul>
         <li *ngFor="let tarefaDoLoop of arrayDeTarefas">
-          <app-item [tarefa]="tarefaDoLoop" (removerTarefa)="REMOVER_TAREFA(tarefaDoLoop)"
-            (editarTarefa)="UPDATE_tarefa(tarefaDoLoop)"></app-item>
+          <app-item
+            [tarefa]="tarefaDoLoop"
+            (removerTarefa)="REMOVER_TAREFA(tarefaDoLoop)"
+            (editarTarefa)="UPDATE_tarefa(tarefaDoLoop)"
+          ></app-item>
         </li>
       </ul>
     </div>
 
     <div *ngIf="tela === 'usuario'">
-      <input type="text" class="lg-text-input" #usuario />
+      <input type="text" class="lg-text-input" placeholder="Usuário" #usuario />
       <br />
-      <input type="text" class="lg-text-input" #senha />
+      <input type="text" class="lg-text-input" placeholder="Senha" #senha />
+
+      <button
+        class="btn-primary"
+        (click)="CREATE_USUARIO(usuario.value, senha.value)"
+      >
+        Adicionar Usuário
+      </button>
+
+      <ul>
+        <li *ngFor="let usuario of arrayDeUsuarios">
+          <app-user-item
+            [usuario]="usuario"
+            (removerUsuario)="REMOVER_USUARIO(usuario)"
+            (editarUsuario)="UPDATE_USUARIO(usuario)"
+          />
+        </li>
+      </ul>
     </div>
   </div>
 
   <div *ngIf="!usuarioLogado">
-    <input #username placeholder="nome" class="lg-text-input" #nome />
-    <BR>
-    <input #password placeholder="senha" class="lg-text-input" (keyup.enter)="login(nome.value, senha.value)" #senha />
-    <button class="btn-primary" (click)="login(nome.value, senha.value)">Login</button>
+    <input placeholder="nome" class="lg-text-input" #nome />
+    <BR />
+    <input
+      placeholder="senha"
+      class="lg-text-input"
+      #senha
+      (keyup.enter)="login(nome.value, senha.value)"
+    />
+    <button class="btn-primary" (click)="login(nome.value, senha.value)">
+      Login
+    </button>
   </div>
 </div>

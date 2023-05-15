@@ -1,0 +1,48 @@
+<div class="item">
+  <input
+    type="checkbox"
+    [id]="usuario._id"
+    [checked]="usuario.admin"
+    (change)="usuario.admin = !usuario.admin; editarUsuario.emit()"
+  />
+  <label [for]="usuario._id">{{ usuario.nome }}</label>
+
+  <div *ngIf="!emEdicao" class="btn-wrapper">
+    <button class="btn" (click)="emEdicao = true">Editar</button>
+    <button class="btn btn-warn" (click)="removerUsuario.emit()">
+      Deletar
+    </button>
+  </div>
+
+  <div *ngIf="emEdicao">
+    <input
+      class="sm-text-input"
+      #username
+      placeholder="escreva o novo nome do usuário aqui"
+      [value]="usuario.nome"
+      (keyup.enter)="usuario.nome = username.value; emEdicao = false"
+    />
+
+    <input
+      class="sm-text-input"
+      #password
+      placeholder="escreva a nova do usuário aqui"
+      [value]="usuario.senha"
+      (keyup.enter)="usuario.senha = password.value; emEdicao = false"
+    />
+    <div class="btn-wrapper">
+      <button class="btn" (click)="emEdicao = false">Cancelar</button>
+      <button
+        class="btn btn-save"
+        (click)="
+          usuario.nome = username.value;
+          usuario.senha = password.value;
+          emEdicao = false;
+          editarUsuario.emit()
+        "
+      >
+        Salvar
+      </button>
+    </div>
+  </div>
+</div>
